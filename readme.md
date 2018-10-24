@@ -19,13 +19,15 @@ $ cd ..
 $ catkin_make
 $ source devel/setup.bash
 ```
-To run talker node:
+To start ROS master:
 ```
 $ roscore
+```
+To run talker node:
+```
 $ rosrun beginner_tutorials talker
 ```
 To run listener node:
 ```
-$ roscore
 $ rosrun beginner_tutorials listener
 ```
