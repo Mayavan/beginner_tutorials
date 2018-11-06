@@ -26,8 +26,20 @@
  */
 
 #include <sstream>
+#include <beginner_tutorials/StringService.h>
 #include "ros/ros.h"
 #include "std_msgs/String.h"
+
+std::string messageToPublish = "Hello";
+
+bool setMessage(beginner_tutorials::StringService::Request &req,
+                beginner_tutorials::StringService::Response &resp) {
+  ROS_INFO_STREAM("The message has been set to "<< req.message);
+  messageToPublish = req.message;
+  resp.success = true;
+  ROS_DEBUG_STREAM("Service callback has been called");
+  return true;
+}
 
 /**
  * This tutorial demonstrates simple sending of messages over the ROS system.
@@ -72,6 +84,14 @@ int main(int argc, char **argv) {
    */
   ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
 
+  ros::ServiceServer server = n.advertiseService("setMessage", &setMessage);
+
+  int hertz = 10;
+
+  if (hertz < 1) {
+    ROS_WARN_STREAM(
+        "Loop frequency too low. Messages will take more than a second to update");
+  }
   ros::Rate loop_rate(10);
 
   /**
@@ -86,10 +106,10 @@ int main(int argc, char **argv) {
     std_msgs::String msg;
 
     std::stringstream ss;
-    ss << "Go Terps! Count# " << count;
+    ss << messageToPublish << "   Count# " << count;
     msg.data = ss.str();
 
-    ROS_INFO("%s", msg.data.c_str());
+    ROS_INFO_STREAM(msg.data.c_str());
 
     /**
      * The publish() function is how you send messages. The parameter
