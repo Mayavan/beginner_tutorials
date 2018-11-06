@@ -35,6 +35,8 @@ std::string messageToPublish = "Hello";
 bool setMessage(beginner_tutorials::StringService::Request &req,
                 beginner_tutorials::StringService::Response &resp) {
   ROS_INFO_STREAM("The message has been set to "<< req.message);
+  if (req.message.compare("") == 0)
+    ROS_ERROR_STREAM("The message has been set to empty string");
   messageToPublish = req.message;
   resp.success = true;
   ROS_DEBUG_STREAM("Service callback has been called");
@@ -84,6 +86,7 @@ int main(int argc, char **argv) {
    */
   ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
 
+  // Advertise service to change messages
   ros::ServiceServer server = n.advertiseService("setMessage", &setMessage);
 
   int hertz = 10;
@@ -92,6 +95,11 @@ int main(int argc, char **argv) {
     ROS_WARN_STREAM(
         "Loop frequency too low. Messages will take more than a second to update");
   }
+  else if (hertz > 10000) {
+    ROS_FATAL("Loop frequency too high. Closing node to reduce CPU usage");
+    exit(1);
+  }
+
   ros::Rate loop_rate(10);
 
   /**
