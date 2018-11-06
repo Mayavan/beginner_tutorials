@@ -24,11 +24,12 @@
  */
 
 #include <sstream>
-#include <beginner_tutorials/StringService.h>
+#include "beginner_tutorials/StringService.h"
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 
-std::string messageToPublish = "Hello"; /*!< Initialization of Message to be published */
+//! Message variable Initialization
+extern std::string messageToPublish = "Hello";
 
 /**
  * @brief Callback function to set the message to be published to chatter topic
@@ -52,7 +53,6 @@ bool setMessage(beginner_tutorials::StringService::Request &req,
  * @param argv Standard main function parameter
  */
 int main(int argc, char **argv) {
-
   // ROS initialization
   ros::init(argc, argv, "talker");
 
@@ -79,8 +79,7 @@ int main(int argc, char **argv) {
     hertz = 1;
     ROS_WARN_STREAM(
         "Loop frequency too low or negative. Frequency set to 1");
-  }
-  else if (hertz > 10000) {
+  } else if (hertz > 10000) {
     ROS_FATAL("Loop frequency too high. Closing node to reduce CPU usage");
     exit(1);
   }

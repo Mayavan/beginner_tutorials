@@ -41,7 +41,6 @@ void chatterCallback(const std_msgs::String::ConstPtr& msg) {
  * @param argv Standard main function parameter
  */
 int main(int argc, char** argv) {
-
   // ROS initialization
   ros::init(argc, argv, "listener");
 
