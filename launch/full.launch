@@ -1,0 +1,23 @@
+<launch>
+  <arg
+    name  ="hertz"
+    default = "5"
+  />
+  
+  <node
+    name = "subscriberNode"
+    pkg = "beginner_tutorials"
+    type = "listener"
+    output = "screen"
+    launch-prefix = "gnome-terminal -e"
+  />
+
+  <node
+    name = "publisherNode"
+    pkg = "beginner_tutorials"
+    type = "talker"
+    output = "screen" 
+    args = "$(arg hertz)"
+  />
+  
+</launch>

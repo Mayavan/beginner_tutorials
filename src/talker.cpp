@@ -91,16 +91,24 @@ int main(int argc, char **argv) {
 
   int hertz = 10;
 
+  // Setting the frequency
+  if (argc == 2) {
+    hertz = atoi(argv[1]);
+  }
+
+  ROS_INFO_STREAM("Loop frequency set to "<< hertz);
+
   if (hertz < 1) {
+    hertz = 1;
     ROS_WARN_STREAM(
-        "Loop frequency too low. Messages will take more than a second to update");
+        "Loop frequency too low or negative. Frequency set to 1");
   }
   else if (hertz > 10000) {
     ROS_FATAL("Loop frequency too high. Closing node to reduce CPU usage");
     exit(1);
   }
 
-  ros::Rate loop_rate(10);
+  ros::Rate loop_rate(hertz);
 
   /**
    * A count of how many messages we have sent. This is used to create
