@@ -15,14 +15,14 @@ The launch file parameter can be used to set the frequency at which the publishe
 ## Standard install via command-line
 
 ```
-$ mkdir -p ~/catkin_ws/src
-$ cd ~/catkin_ws/
-$ catkin_make
-$ cd src/
-$ git clone https://github.com/Mayavan/beginner_tutorials.git
-$ cd ..
-$ catkin_make
-$ source devel/setup.bash
+mkdir -p ~/catkin_ws/src
+cd ~/catkin_ws/
+catkin_make
+cd src/
+git clone -b Week11_HW https://github.com/Mayavan/beginner_tutorials.git
+cd ..
+catkin_make
+source devel/setup.bash
 ```
 
 ## To run demo
@@ -44,23 +44,30 @@ roslaunch beginner_tutorials full.launch hertz:=1
 To start ROS master:
 
 ```
-$ roscore
+ roscore
 ```
 
 To run talker node:
 
 ```
-$ rosrun beginner_tutorials talker
+ rosrun beginner_tutorials talker
 ```
 
 To run listener node:
 
 ```
-$ rosrun beginner_tutorials listener
+ rosrun beginner_tutorials listener
 ```
 
 ### To call service to set message
 
 ```
-$ rosservice call /setMessage "message: 'Mayavan'"
+ rosservice call /setMessage "message: 'Mayavan'"
+```
+
+## To run test
+
+```
+catkin_make tests
+rostest beginner_tutorials talker.test
 ```

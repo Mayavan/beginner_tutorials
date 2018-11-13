@@ -19,5 +19,4 @@
     output = "screen" 
     args = "$(arg hertz)"
   />
-  
 </launch>

@@ -1,0 +1,19 @@
+<launch>
+    <arg
+        name  ="hertz"
+        default = "5"
+    />
+
+    <node
+        name = "publisherNode"
+        pkg = "beginner_tutorials"
+        type = "talker"
+        args = "$(arg hertz)"
+    />
+
+    <test 
+        test-name="tester" 
+        pkg="beginner_tutorials" 
+        type="tester" 
+    />
+</launch>
