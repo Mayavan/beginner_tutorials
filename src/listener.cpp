@@ -39,6 +39,7 @@ void chatterCallback(const std_msgs::String::ConstPtr& msg) {
  * @brief main function to create the node and subscribe to chatter topic
  * @param argc Standard main function parameter
  * @param argv Standard main function parameter
+ * @return 0 if execution completed successfully
  */
 int main(int argc, char** argv) {
   // ROS initialization

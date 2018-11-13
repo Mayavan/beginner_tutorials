@@ -35,6 +35,7 @@ extern std::string messageToPublish = "Hello";
  * @brief Callback function to set the message to be published to chatter topic
  * @param req input request of service
  * @param req input response of service
+ * @return returns true if the message has been set successfully
  */
 bool setMessage(beginner_tutorials::StringService::Request &req,
                 beginner_tutorials::StringService::Response &resp) {
@@ -51,6 +52,7 @@ bool setMessage(beginner_tutorials::StringService::Request &req,
  * @brief main function to create the node and publish to chatter topic
  * @param argc Standard main function parameter
  * @param argv Standard main function parameter
+ * @return 0 if execution completed successfully
  */
 int main(int argc, char **argv) {
   // ROS initialization
