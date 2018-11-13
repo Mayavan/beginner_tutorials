@@ -29,7 +29,14 @@
 
 std::shared_ptr<ros::NodeHandle> nh;
 
-// Test if the service was created
+/**
+ * @brief Test if the service was created
+ *
+ * @param[in] TESTSuite
+ * @param[in] testService
+ *
+ * @return none
+ */
 TEST(Service, existence) {
   ros::ServiceClient client =
       nh->serviceClient<beginner_tutorials::StringService>("setMessage");
@@ -43,7 +50,15 @@ TEST(Service, existence) {
   EXPECT_TRUE(srv.response.success);
 }
 
-// Run all the tests that were declared with TEST()
+/**
+ * @brief Run all the tests that were declared with TEST()
+ *
+ * @param[in] argc
+ * @param[in] argv
+ *
+ * @return 0 if executed with no errors
+ */
+
 int main(int argc, char** argv) {
   testing::InitGoogleTest(&argc, argv);
   ros::init(argc, argv, "tester");

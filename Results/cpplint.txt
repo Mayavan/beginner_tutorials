@@ -1,7 +1,8 @@
-mayavan@mayavan-System-Product-Name:~/workspace/ROS/week1/catkin_ws/src/beginner_tutorials$ cpplint src/listener.cpp src/talker.cpp 
+mayavan@mayavan-System-Product-Name:~/workspace/ROS/week1/catkin_ws/src/beginner_tutorials$ cpplint src/listener.cpp src/talker.cpp test/test_talker.cpp
 Done processing src/listener.cpp
-src/talker.cpp:39:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::StringService::Request &req  [runtime/references] [2]
-src/talker.cpp:40:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::StringService::Response &resp  [runtime/references] [2]
+src/talker.cpp:33:  Static/global string variables are not permitted.  [runtime/string] [4]
+src/talker.cpp:41:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::StringService::Request &req  [runtime/references] [2]
+src/talker.cpp:42:  Is this a non-const reference? If so, make const or use a pointer: beginner_tutorials::StringService::Response &resp  [runtime/references] [2]
 Done processing src/talker.cpp
-Total errors found: 2
-
+Done processing test/test_talker.cpp
+Total errors found: 3
