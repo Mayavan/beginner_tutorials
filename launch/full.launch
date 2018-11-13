@@ -3,6 +3,11 @@
     name  ="hertz"
     default = "5"
   />
+
+  <arg
+    name  ="record"
+    default = "false"
+  />
   
   <node
     name = "subscriberNode"
@@ -18,5 +23,13 @@
     type = "talker"
     output = "screen" 
     args = "$(arg hertz)"
+  />
+
+  <node 
+    if = "$(arg record)" 
+    name = "record" 
+    pkg = "rosbag" 
+    type = "record" 
+    args = "-a -o $(find beginner_tutorials)/Results/ROSBAG"
   />
 </launch>
