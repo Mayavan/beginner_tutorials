@@ -1,6 +1,7 @@
 /**
  * @file    talker.cpp
- * @brief Implementation of publisher node to publish to chatter topic with services to change messages
+ * @brief Implementation of publisher node to publish to chatter topic with
+ * services to change messages
  * @author RajendraMayavan
  * @copyright MIT License
  *
@@ -12,24 +13,24 @@
  * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
- * The above copyright notice and this permission notice shall be included in all
- * copies or substantial portions of the Software.
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
- * SOFTWARE.
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software. THE SOFTWARE IS PROVIDED
+ * "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT
+ * LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR
+ * PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+ * HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+ * ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+ * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+#include <tf/transform_broadcaster.h>
 #include <sstream>
 #include "beginner_tutorials/StringService.h"
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 
 //! Message variable Initialization
-extern std::string messageToPublish = "Hello";
+std::string messageToPublish = "Hello";
 
 /**
  * @brief Callback function to set the message to be published to chatter topic
@@ -39,7 +40,7 @@ extern std::string messageToPublish = "Hello";
  */
 bool setMessage(beginner_tutorials::StringService::Request &req,
                 beginner_tutorials::StringService::Response &resp) {
-  ROS_INFO_STREAM("The message has been set to "<< req.message);
+  ROS_INFO_STREAM("The message has been set to " << req.message);
   if (req.message.compare("") == 0)
     ROS_ERROR_STREAM("The message has been set to empty string");
   messageToPublish = req.message;
@@ -74,17 +75,24 @@ int main(int argc, char **argv) {
     hertz = atoi(argv[1]);
   }
 
-  ROS_INFO_STREAM("Loop frequency set to "<< hertz);
+  ROS_INFO_STREAM("Loop frequency set to " << hertz);
 
   // Show error if frequency is negative or very low or very high
   if (hertz < 1) {
     hertz = 1;
-    ROS_WARN_STREAM(
-        "Loop frequency too low or negative. Frequency set to 1");
+    ROS_WARN_STREAM("Loop frequency too low or negative. Frequency set to 1");
   } else if (hertz > 10000) {
     ROS_FATAL("Loop frequency too high. Closing node to reduce CPU usage");
     exit(1);
   }
+
+  // Broadcast World frame
+  static tf::TransformBroadcaster br;
+  tf::Transform transform;
+  transform.setOrigin(tf::Vector3(2.0, 1.0, 3.0));
+  tf::Quaternion q;
+  q.setRPY(3.14, 1.5, 1.5);
+  transform.setRotation(q);
 
   // Set the publisher rate
   ros::Rate loop_rate(hertz);
@@ -103,6 +111,8 @@ int main(int argc, char **argv) {
     // Publish message to the chatter topic
     chatter_pub.publish(msg);
 
+    br.sendTransform(
+        tf::StampedTransform(transform, ros::Time::now(), "world", "talk"));
     ros::spinOnce();
 
     loop_rate.sleep();
