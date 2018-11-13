@@ -8,9 +8,10 @@ The launch file parameter can be used to set the frequency at which the publishe
 
 ---
 
-## Dependency:
+## Dependencies:
 
 * [ROS Kinetic](http://wiki.ros.org/ROS/Installation) on Ubuntu 16.04
+* [tf](http://wiki.ros.org/tf)
 
 ## Standard install via command-line
 
@@ -59,7 +60,27 @@ To run listener node:
  rosrun beginner_tutorials listener
 ```
 
-### To call service to set message
+## Handling bag files
+
+Run using launch file and pass parameter value to record (by default recording is disabled)
+
+```
+roslaunch beginner_tutorials full.launch record:=true
+```
+
+To inspect the bag file
+
+```
+rosbag info Results/ROSBAG_2018-11-13-00-57-40.bag
+```
+
+To play recorded file
+
+```
+rosbag play Results/ROSBAG_2018-11-13-00-57-40.bag
+```
+
+## To call service to set message
 
 ```
  rosservice call /setMessage "message: 'Mayavan'"
@@ -69,5 +90,18 @@ To run listener node:
 
 ```
 catkin_make tests
+source devel/setup.bash
 rostest beginner_tutorials talker.test
+```
+
+## To inspect tf
+
+```
+rosrun tf tf_echo /world /talk
+```
+
+or
+
+```
+rosrun tf view_frames
 ```
